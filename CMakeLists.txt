@@ -11,20 +11,23 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
 find_package(PCL CONFIG REQUIRED)
 find_package(VTK REQUIRED)
 
-include("${VTK_USE_FILE}")
+find_path(LIBLAS_INCLUDE_DIR liblas/liblas.hpp)
+find_library(libLAS_LIBRARIES liblas)
+include_directories(${LIBLAS_INCLUDE_DIR})
+
+enable_language("RC")
 
 set(PROJECT_SOURCES
     main.cpp
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    resources.rc
 )
-
 
 add_executable(PointCloudViewer
     ${PROJECT_SOURCES}
@@ -34,6 +37,7 @@ target_link_libraries(PointCloudViewer PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     ${VTK_LIBRARIES}
     ${PCL_LIBRARIES}
+    ${libLAS_LIBRARIES}
 )
 
 set_target_properties(PointCloudViewer PROPERTIES

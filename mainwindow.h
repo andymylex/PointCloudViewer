@@ -23,6 +23,9 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_actionAbout_Qt_triggered();
+    void on_actionAbout_Program_triggered();
+    void on_pushButton_setLasColors_pressed();
     void on_actionDemo_Cloud_triggered();
     void on_actionLoad_triggered();
     void on_horizontalSlider_pointSize_valueChanged(int value);
